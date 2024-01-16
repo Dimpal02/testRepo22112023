@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Default test(failed)">
+    <classes>
+      <class name="test1.LoginTest">
+        <methods>
+          <include name="initobjects"/>
+          <include name="tearDown"/>
+          <include name="logout"/>
+          <include name="login"/>
+          <include name="performLoginTest"/>
+          <include name="initBrowser"/>
+        </methods>
+      </class> <!-- test1.LoginTest -->
+      <class name="test1.EditPasswordTest">
+        <methods>
+          <include name="initobjects"/>
+          <include name="performEditPassword"/>
+          <include name="logout"/>
+          <include name="tearDown"/>
+          <include name="login"/>
+          <include name="initBrowser"/>
+        </methods>
+      </class> <!-- test1.EditPasswordTest -->
+      <class name="test1.EditAccountTest">
+        <methods>
+          <include name="initobjects"/>
+          <include name="logout"/>
+          <include name="tearDown"/>
+          <include name="login"/>
+          <include name="initBrowser"/>
+          <include name="perfornEditAccount"/>
+        </methods>
+      </class> <!-- test1.EditAccountTest -->
+    </classes>
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
