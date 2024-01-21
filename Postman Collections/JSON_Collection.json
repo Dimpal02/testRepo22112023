@@ -1,0 +1,861 @@
+{
+	"info": {
+		"_postman_id": "9dbebff6-e726-49d7-91cb-1566a623a24d",
+		"name": "petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "pet",
+			"item": [
+				{
+					"name": "Add a new pet to store",
+					"id": "13378ef2-6b51-41ed-98c2-74f9919ae586",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 11,\r\n  \"category\": {\r\n    \"id\": 1,\r\n    \"name\": \"zuzu\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 2,\r\n      \"name\": \"kuku\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://petstore.swagger.io/v2/pet"
+					},
+					"response": []
+				},
+				{
+					"name": "Finds pets by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "902d8264-67e1-4314-a2f0-ef6f54f7c6fa",
+								"exec": [
+									"pm.collectionVariables.set(\"st_aval\",\"status=available\")\r",
+									"pm.collectionVariables.set(\"st_pend\",\"status=pending\")\r",
+									"pm.collectionVariables.set(\"st_sold\",\"status=sold\")\r",
+									"\r",
+									"\r",
+									"var jsonarray = pm.response.json();\r",
+									"pm.test(\"Name of sold pet is Kisa\",function()\r",
+									"{\r",
+									"    pm.expect(jsonarray[0].name).include(\"doggie\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Name of sold pet is doggie\",function()\r",
+									"{\r",
+									"    pm.expect(jsonarray[1].name).include(\"dog\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Nameis dolor veniam non Ut of id -79344316\",function()\r",
+									"{\r",
+									"    pm.expect(jsonarray[0].tags[1].name).to.be.equal(\"et est\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status should be pending\",function()\r",
+									"{\r",
+									"    pm.expect(jsonarray[0].status).to.be.equal(\"pending\")\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e8755f3f-51f0-40bc-a9f8-29f022eac919",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/findByStatus?{{st_pend}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "{{st_pend}}",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "fecac5fe-5fb3-4cf5-ab6f-019f7cfcff60"
+		},
+		{
+			"name": "store",
+			"item": [
+				{
+					"name": "Place order for store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cb155a0d-77d5-456a-ac2d-d6755b7d78b0",
+								"exec": [
+									"pm.collectionVariables.set(\"petvar\", \"petId\")\r",
+									"pm.collectionVariables.unset(\"petID\");\r",
+									"pm.collectionVariables.unset(\"pID\");\r",
+									"pm.collectionVariables.unset(\"petvar\");\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify String in Status is OK\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.status).to.be.include(\"OK\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Verify the content type and server from response header\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.headers.get(\"Content-type\")).to.be.equal(\"application/json\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the content type and server from response header\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.headers.get(\"server\")).to.be.contain(\"Jetty\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify method is post\",function()\r",
+									"{\r",
+									"    pm.expect(pm.request.method).to.be.equal(\"POST\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify Status in order is Placed\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.json().status).to.be.equal(\"placed\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "ee327dc1-8f35-4d8c-acab-2401bbabfe17",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 13,\r\n  \"petId\": 3,\r\n  \"quantity\": 30,\r\n  \"shipDate\": \"2023-11-10T16:25:55.328Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\" : false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://petstore.swagger.io/v2/store/order/{"
+					},
+					"response": []
+				},
+				{
+					"name": "find purchase order by ID",
+					"id": "c6fb16e6-0265-4eb4-b9c3-083e84d2c81b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://petstore.swagger.io/v2/store/order/{{petvar}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Return pet inventories by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "adacb47b-2686-47a6-8779-576aefa0991b",
+								"exec": [
+									"pm.test(\"Status code is 200\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"var jsonbody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Sold nimbers are 5\",function()\r",
+									"{\r",
+									"    pm.expect(jsonbody.sold).to.be.equal(6)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Pending product status is 2\",function()\r",
+									"{\r",
+									"    pm.expect(jsonbody.pending).to.be.equal(3)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "ae11ed03-af1a-45b5-9687-d8b52231a72d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://petstore.swagger.io/v2/store/inventory"
+					},
+					"response": []
+				},
+				{
+					"name": "Post multiple order for store",
+					"id": "58b78aa4-13b3-4ed1-8b39-f5a5f37c9a06",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n  \"id\": 15,\r\n  \"petId\": 5,\r\n  \"quantity\": 30,\r\n  \"shipDate\": \"2023-11-10T16:25:55.328Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\" : false\r\n},\r\n{\r\n  \"id\": 16,\r\n  \"petId\":6,\r\n  \"quantity\": 25,\r\n  \"shipDate\": \"2023-11-10T16:25:55.328Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\" : true\r\n }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://petstore.swagger.io/v2/store/order"
+					},
+					"response": []
+				}
+			],
+			"id": "47408a97-bf4c-45fd-9641-ae87d0dc8772"
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92db245b-0c54-4a78-bfb7-66213f58b81f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.above(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"unknown\");\r",
+									"});\r",
+									"\r",
+									"console.log(pm.response.code)\r",
+									"\r",
+									"pm.environment.set(\"firstName\", \"dimpal\");\r",
+									"\r",
+									"pm.environment.set(\"laststName\", \"patil\");\r",
+									"\r",
+									"pm.globals.set(\"username\",\"dimpal123\");\r",
+									"\r",
+									"pm.collectionVariables.set(\"APITest\",\"Framework\")\r",
+									"\r",
+									"pm.collectionVariables.set(\"username\",\"dimpalP11\")\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the data ttype sghould number for code in response body\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.json().code).to.be.a(\"integer\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4690c987-566b-4946-86ed-d3a7e3defa66",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"username\": \"dimpal123\",\r\n  \"firstName\": \"dimpal\",\r\n  \"lastName\": \"patil\",\r\n  \"email\": \"dt@gmail.com\",\r\n  \"password\": \"password\",\r\n  \"phone\": \"3523725634\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by invalid username",
+					"id": "033de311-97ad-4188-b906-1ba7d5a509e6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://petstore.swagger.io/v2/user/dimpal12"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "03f100e3-4c72-4fa3-9c9c-cbccab897c8b",
+								"exec": [
+									"pm.test(\"Status code is 200\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Responce time should be abobe 600\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(600)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Body contains EmailId dt@gmail.com\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.text()).to.be.include(\"dt@gmail.com\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Total 6 string present in body\",function()\r",
+									"{\r",
+									"   var jsonBody = pm.response.json();\r",
+									"    pm.expect(jsonBody.size).to.be.undefined\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"FirstName is dimpal \",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.text()).to.be.include(\"dimpal\")\r",
+									"})\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"laststName is Patil\",function()\r",
+									"{\r",
+									"    pm.expect(jsonData.lastName).to.be.equal(\"patil\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"username is dimpal123\",function()\r",
+									"{\r",
+									"    pm.expect(jsonData.username).to.be.equal(\"dimpal123\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Password is ---\",function()\r",
+									"{\r",
+									"    pm.expect(jsonData.password).to.be.equal(\"password\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "779071df-ff8a-477c-afdc-cd5fdd098835",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user/{{user id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "create user with NULL value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f78a01b-93e4-4a9b-8b01-c93c8085edde",
+								"exec": [
+									"\r",
+									"\r",
+									"pm.test(\"Status line has Unsupported media type\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(415)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "abbe5cc9-3efc-482c-9a3b-f458f90deea2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user"
+					},
+					"response": []
+				},
+				{
+					"name": "create user with insufficient data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9ccdf0c3-36fb-4f19-8aff-ba95e7480cf9",
+								"exec": [
+									"pm.test(\"Status code should be 400\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(400)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Responce time  is less than 1000\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.responseTime).to.have.lessThan(1000)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Body Contains message as Bad Input\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.text()).to.include(\"bad input\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "bfa11733-544f-4cd8-858b-649067426e6b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"username\": \"dimpal123\",\r\n  \"firstName\": \"dimpal\",\r\n  \"email\": \r\n  \"phone\": 3523725634\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user"
+					},
+					"response": []
+				},
+				{
+					"name": "create user with invalid data type",
+					"id": "c68a2241-f724-4cac-9258-b2e3dd358f18",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": aaa,\r\n  \"username\": \"dimpal123\",\r\n  \"firstName\": \"dimpal\",\r\n  \"lastName\": \"patil\",\r\n  \"email\": \"dt@gmail.com\",\r\n  \"password\": \"password\",\r\n  \"phone\": 3523725634,\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user by user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b68e38fb-8e7b-4865-83ce-dff7cd379326",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.above(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Type is Unknown \",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.json().type).to.be.eql(\"unknown\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fb35c682-a2d8-4027-a8d5-03be7dcc544e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"username\": \"dimpalP11\",\r\n  \"firstName\": \"dimpal\",\r\n  \"lastName\": \"patil\",\r\n  \"email\": \"dt@gmail.com\",\r\n  \"password\": \"password\",\r\n  \"phone\": \"3523725634\",\r\n  \"userStatus\" : 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user/{{username}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6bd57374-bd7f-49e7-b565-c1bd734009d7",
+								"exec": [
+									"pm.test(\"Responce code is 200 or 404\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404])\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response size is 292\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(300)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "69292c8b-7ef9-48de-9479-7450bdb434d5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUri}}/user/{{user id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Login by valid user credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a0eb4926-b981-4b72-bfd8-43786ea31c1a",
+								"exec": [
+									"pm.test(\"Response code is 200 successful\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Get logged in message\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.be.eql(\"Logged in user session:1698992523445 \")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Responce size less than 500\",function()\r",
+									"{\r",
+									"pm.expect(pm.response.responseSize).to.be.below(500)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "495fbc8c-e92a-4770-a577-b2462ee16306",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUri}}/user/login?username=dimpal123&password=password",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "dimpal123"
+								},
+								{
+									"key": "password",
+									"value": "password"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login by invalid user cresdential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "54718844-ddae-4f55-933c-b4297fb4dc57",
+								"exec": [
+									"pm.test(\"Status code should be 401\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(401)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fc5a6456-716c-4633-adba-4b5f17817203",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUri}}/user/login?username=dimpalP&password=pass",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "dimpalP"
+								},
+								{
+									"key": "password",
+									"value": "pass"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout current user session",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8aa08c6c-0afa-4df2-8689-1b4b5893ff0d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8c54413-3eb9-4166-b911-046980e199ec",
+								"exec": [
+									"pm.test(\"Status code is 200\",function()\r",
+									"{\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message in Response body is OK\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.json().message).to.be.equal(\"ok\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response size should be below 100\",function()\r",
+									"{\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(100)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "2368e62d-c7aa-4b19-b7e5-913734d1022e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUri}}/user/logout"
+					},
+					"response": []
+				}
+			],
+			"id": "08960755-3ecc-452d-9a09-dfcc6315348c"
+		}
+	],
+	"variable": [
+		{
+			"key": "APITest",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "st_aval",
+			"value": ""
+		},
+		{
+			"key": "st_pend",
+			"value": ""
+		},
+		{
+			"key": "st_sold",
+			"value": ""
+		}
+	]
+}
